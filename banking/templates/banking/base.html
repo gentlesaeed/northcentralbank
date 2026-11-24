@@ -1,0 +1,49 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}North Central Bank{% endblock %} · North Central</title>
+  <link rel="stylesheet" href="{% static 'banking/site.css' %}">
+</head>
+<body>
+{% if user.is_authenticated %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{% url 'dashboard' %}"><span class="brand-mark">N</span><span>NORTH CENTRAL<small>DEMO BANKING</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="navigation">
+      <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><span>◫</span> Overview</a>
+      <a href="{% url 'accounts' %}" class="{% if request.resolver_match.url_name == 'accounts' %}active{% endif %}"><span>▤</span> Accounts</a>
+      <a href="{% url 'transfers' %}" class="{% if request.resolver_match.url_name == 'transfers' %}active{% endif %}"><span>↗</span> Transfers</a>
+      <a href="{% url 'checking_savings' %}" class="{% if request.resolver_match.url_name == 'checking_savings' %}active{% endif %}"><span>◷</span> Checking & savings</a>
+      <a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == 'transactions' %}active{% endif %}"><span>⇄</span> Transactions</a>
+      <a href="{% url 'loans' %}" class="{% if request.resolver_match.url_name == 'loans' %}active{% endif %}"><span>▱</span> Loans</a>
+      <a href="{% url 'upgrade' %}" class="{% if request.resolver_match.url_name == 'upgrade' %}active{% endif %}"><span>✦</span> Account tier</a>
+      <a href="{% url 'reports' %}" class="{% if request.resolver_match.url_name == 'reports' %}active{% endif %}"><span>▥</span> Reports</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="{% url 'security' %}">Security</a>
+      <a href="{% url 'settings' %}">About this demo</a>
+      <div class="user-chip"><span class="avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</span><span class="user-name">{{ user.get_full_name|default:user.username }}<small>Demo customer</small></span></div>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout-button" type="submit">↪ &nbsp; Sign out</button></form>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div class="breadcrumb">North Central <span>/</span> <strong>{% block page_label %}Overview{% endblock %}</strong></div><div class="topbar-right"><span class="demo-pill"><i></i> SIMULATION</span><span class="top-avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</span></div></header>
+    <section class="page-content">
+      {% if messages %}<div class="messages">{% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+      {% block content %}{% endblock %}
+      <footer class="footer">North Central Bank · Educational simulation only · No real funds or financial services</footer>
+    </section>
+  </main>
+</div>
+{% else %}
+<main class="auth-shell">
+  <section class="auth-brand"><a class="brand brand-light" href="{% url 'login' %}"><span class="brand-mark">N</span><span>NORTH CENTRAL<small>DEMO BANKING</small></span></a><div class="auth-copy"><span class="eyebrow">A BETTER WAY TO BANK</span><h1>Your money.<br>In view.</h1><p>A clean, simple way to explore everyday banking — built as a learning demo.</p></div><div class="auth-note">A banking interface prototype. No real money is held or transferred.</div></section>
+  <section class="auth-panel"><div class="auth-form-wrap">{% if messages %}<div class="messages">{% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% block auth_content %}{% endblock %}<p class="auth-foot">Educational demo only · Not a financial institution</p></div></section>
+</main>
+{% endif %}
+</body>
+</html>
