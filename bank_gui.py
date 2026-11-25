@@ -105,7 +105,7 @@ class BankLedger:
 
     @property
     def total_transferred(self) -> Decimal:
-        return su   m(
+        return sum(
             (transaction.amount for transaction in self.transactions if transaction.kind == "Transfer"),
             Decimal("0"),
         )

@@ -20,6 +20,16 @@ Open <http://127.0.0.1:8000/> and create a demo customer account. Use `python ma
 
 The local SQLite database is stored in `db.sqlite3`. For development, Django uses a fallback secret key and debug mode. Before any deployment, set a private `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0`, and `DJANGO_ALLOWED_HOSTS`; serve behind HTTPS and set `DJANGO_SECURE_SSL_REDIRECT=1`, `DJANGO_SECURE_COOKIES=1`, and an appropriate `DJANGO_HSTS_SECONDS` value. Complete a security review before deployment. A real financial service would require a separately designed, independently reviewed security, regulatory, and payment-provider architecture.
 
+## Deploying on Vercel
+
+Vercel detects this Django project from `manage.py` and uses the configured ASGI application. Configure these project environment variables in Vercel for Production (and Preview if used):
+
+- `DJANGO_SECRET_KEY`: a newly generated, private Django secret key.
+- `DJANGO_DEBUG`: `0`.
+- `DJANGO_ALLOWED_HOSTS`: comma-separated custom hostnames, if using a custom domain. Vercel deployment hostnames are read from Vercel's system environment variables.
+
+The app enables HTTPS-aware secure cookies and redirects on Vercel, and Vercel collects the configured static files during build. SQLite is suitable for local development only; its filesystem is not persistent across Vercel function instances. Configure a persistent external database before relying on registration or saved banking demo data.
+
 ## Tests
 
 ```powershell
