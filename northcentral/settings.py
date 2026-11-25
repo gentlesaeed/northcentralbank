@@ -8,10 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 IS_VERCEL = os.environ.get("VERCEL") == "1"
 DEBUG = os.environ.get("DJANGO_DEBUG", "0" if IS_VERCEL else "1") == "1"
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or os.environ.get("SECRET_KEY")
 if not SECRET_KEY:
     if not DEBUG:
-        raise ImproperlyConfigured("Set DJANGO_SECRET_KEY in the deployment environment.")
+        raise ImproperlyConfigured(
+            "Set DJANGO_SECRET_KEY or SECRET_KEY in the deployment environment."
+        )
     SECRET_KEY = "django-insecure-local-demo-key-change-this-before-deployment"
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]

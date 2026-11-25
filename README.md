@@ -24,7 +24,7 @@ The local SQLite database is stored in `db.sqlite3`. For development, Django use
 
 Vercel detects this Django project from `manage.py` and uses the configured ASGI application. Configure these project environment variables in Vercel for Production (and Preview if used):
 
-- `DJANGO_SECRET_KEY`: a newly generated, private Django secret key.
+- `DJANGO_SECRET_KEY` (or `SECRET_KEY`): a newly generated, private Django secret key.
 - `DJANGO_DEBUG`: `0`.
 - `DJANGO_ALLOWED_HOSTS`: comma-separated custom hostnames, if using a custom domain. Vercel deployment hostnames are read from Vercel's system environment variables.
 
