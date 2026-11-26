@@ -14,7 +14,7 @@ if not SECRET_KEY:
         raise ImproperlyConfigured(
             "Set DJANGO_SECRET_KEY or SECRET_KEY in the deployment environment."
         )
-    SECRET_KEY = "django-insecure-local-demo-key-change-this-before-deployment"
+    SECRET_KEY = "django-insecure-local-development-key-change-this-before-deployment"
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 ALLOWED_HOSTS.extend(
@@ -30,7 +30,7 @@ for variable in (
     host = os.environ.get(variable, "").strip()
     if host:
         ALLOWED_HOSTS.append(host)
-ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
 
 INSTALLED_APPS = [
     "django.contrib.admin",

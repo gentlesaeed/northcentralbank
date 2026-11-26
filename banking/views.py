@@ -30,7 +30,7 @@ def register(request):
         user = form.save()
         Profile.objects.create(user=user)
         login(request, user)
-        messages.success(request, "Your demo account is ready.")
+        messages.success(request, "Your simulation account is ready.")
         return redirect("dashboard")
     return render(request, "registration/register.html", {"form": form})
 
@@ -111,7 +111,7 @@ def transfers(request):
                     amount=amount,
                 )
         if not form.errors:
-            messages.success(request, "Your transfer was recorded in the demo ledger.")
+            messages.success(request, "Your transfer was recorded in the simulation ledger.")
             return redirect("transactions")
     return render(request, "banking/transfers.html", {"form": form})
 
@@ -158,7 +158,7 @@ def checking_savings(request):
                         amount=amount,
                     )
             if not form.errors:
-                messages.success(request, "Your transfer was recorded in the demo ledger.")
+                messages.success(request, "Your transfer was recorded in the simulation ledger.")
                 return redirect("checking_savings")
     return render(
         request,
@@ -183,14 +183,14 @@ def loans(request):
         if not Account.objects.filter(
             user=request.user, account_type=Account.AccountType.CHECKING
         ).exists():
-            form.add_error(None, "Create a checking account before requesting a demo loan.")
+            form.add_error(None, "Create a checking account before requesting a sample loan.")
         else:
             application = form.save(commit=False)
             application.user = request.user
             application.save()
             messages.success(
                 request,
-                "Request submitted for review. This demo does not perform credit checks or approve loans.",
+                "Request submitted for review. This simulation does not perform credit checks or approve loans.",
             )
             return redirect("loans")
     return render(
@@ -223,7 +223,7 @@ def upgrade(request):
         elif balance < thresholds[target]:
             form.add_error(
                 "requested_tier",
-                f"This illustrative demo tier requires a ${thresholds[target]:,.2f} balance.",
+                f"This illustrative tier requires a simulated balance of ${thresholds[target]:,.2f}.",
             )
         elif not Account.objects.filter(
             user=request.user, account_type=Account.AccountType.CHECKING
@@ -269,7 +269,7 @@ def security(request):
     if request.method == "POST" and "save_security" in request.POST:
         profile.two_factor_preference = request.POST.get("two_factor_preference") == "on"
         profile.save(update_fields=["two_factor_preference"])
-        messages.success(request, "Your demo security preference was saved.")
+        messages.success(request, "Your security preference was saved.")
         return redirect("security")
     return render(
         request,

@@ -24,7 +24,7 @@ class AccountForm(forms.Form):
         decimal_places=2,
         min_value=Decimal("0.00"),
         initial=Decimal("0.00"),
-        help_text="Optional opening balance for this demo account.",
+        help_text="Optional opening balance for this simulated account.",
     )
 
 
