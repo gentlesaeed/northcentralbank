@@ -30,7 +30,7 @@ for variable in (
     host = os.environ.get(variable, "").strip()
     if host:
         ALLOWED_HOSTS.append(host)
-ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
